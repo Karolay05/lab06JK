@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Clientes</title>
+    <link rel="stylesheet" href="styles-clientes.css">
+</head>
+<body>
+    <h1>CRUD de Clientes</h1>
+    <div id="clientes">
+        <h2>Gestión de Clientes</h2>
+        <button onclick="window.location.href='clientes-agregar.html'">Agregar Cliente</button>
+        <button onclick="window.location.href='funcionalidades.html'">Funcionalidades Adicionales</button>
+        <!-- Tabla para listar clientes -->
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Edad</th>
+                    <th>Email</th>
+                    <th>Ciudad</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="clientes-list">
+                <!-- Los clientes se cargarán aquí dinámicamente -->
+            </tbody>
+        </table>
+    </div>
+    <button onclick="window.location.href='/'">Volver al Inicio</button>
+    <script>
+        // Función para listar clientes
+        function listarClientes() {
+            fetch('/clientes')
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('clientes-list');
+                    tbody.innerHTML = ''; // Limpiar la tabla
+                    data.forEach(cliente => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${cliente.id}</td>
+                            <td>${cliente.nombre}</td>
+                            <td>${cliente.apellido}</td>
+                            <td>${cliente.edad}</td>
+                            <td>${cliente.email}</td>
+                            <td>${cliente.ciudad}</td>
+                            <td>
+                                <button onclick="redirigirEditarCliente(${cliente.id})">Editar</button>
+                                <button onclick="eliminarCliente(${cliente.id})">Eliminar</button>
+                            </td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                })
+                .catch(err => console.error('Error al listar clientes:', err));
+        }
+
+        // Función para redirigir al formulario de edición con los datos del cliente
+        function redirigirEditarCliente(id) {
+            window.location.href = `clientes-editar.html?id=${id}`;
+        }
+
+        // Función para eliminar un cliente
+        function eliminarCliente(id) {
+            fetch(`/clientes/${id}`, {
+                method: 'DELETE'
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data.message);
+                    listarClientes(); // Actualizar la lista
+                })
+                .catch(err => console.error('Error al eliminar cliente:', err));
+        }
+
+        // Llamar a la función para listar clientes al cargar la página
+        listarClientes();
+    </script>
+</body>
+</html>
