@@ -8,10 +8,10 @@ const PORT = 3000;
 
 // Configuración de la base de datos
 const db = mysql.createConnection({
-    host: 'localhost',
+    host: 'mysql.railway.internal',
     user: 'root',
-    password: '',
-    database: 'evaluacion02'  // Asegúrate de que el nombre de la base de datos sea correcto
+    password: 'VpUYCsQNLIeKhBGcfElkLiHaaRKpuXnf',
+    database: 'railway'  // Asegúrate de que el nombre de la base de datos sea correcto
 });
 
 // Conectar a la base de datos MySQL
