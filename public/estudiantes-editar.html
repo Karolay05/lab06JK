@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Editar Estudiante</title>
+  <link rel="stylesheet" href="editarE.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1>Editar Estudiante</h1>
+  <form id="editarForm" enctype="multipart/form-data">
+    <label for="nombre">Nombre:</label>
+    <input type="text" name="nombre" id="nombre" required />
+
+    <label for="correo">Correo:</label>
+    <input type="email" name="correo" id="correo" required />
+
+    <label for="telefono">Teléfono:</label>
+    <input type="text" name="telefono" id="telefono" required />
+
+    <label for="programaSelect">Programa:</label>
+    <select name="programa_id" id="programaSelect" required></select>
+
+    <label for="imagen">Imagen:</label>
+    <input type="file" name="imagen" id="imagen" />
+
+    <button type="submit">
+      <i class="fas fa-edit"></i> Actualizar
+    </button>
+  </form>
+
+  <script>
+    const id = new URLSearchParams(window.location.search).get('id');
+
+    fetch('/api/programas')
+      .then(res => res.json())
+      .then(programas => {
+        const select = document.getElementById('programaSelect');
+        programas.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          opt.textContent = p.nombre;
+          select.appendChild(opt);
+        });
+
+        fetch(`/api/estudiantes/${id}`)
+          .then(res => res.json())
+          .then(est => {
+            document.getElementById('nombre').value = est.nombre;
+            document.getElementById('correo').value = est.correo;
+            document.getElementById('telefono').value = est.telefono;
+            document.getElementById('programaSelect').value = est.programa_id;
+          });
+      });
+
+    document.getElementById('editarForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      fetch(`/api/estudiantes/${id}`, {
+        method: 'PUT',
+        body: formData
+      })
+        .then(res => res.json())
+        .then(() => window.location.href = 'estudiantes.html');
+    });
+  </script>
+</body>
+</html>

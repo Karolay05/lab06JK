@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lista de Estudiantes</title>
+  <link rel="stylesheet" href="estudiantes.css">
+</head>
+<body>
+  <h1>Estudiantes</h1>
+  <div class="actions">
+    <a href="estudiantes-agregar.html" class="button add">Agregar Estudiante</a>
+    <a href="programas.html" class="button view">Ver Programas</a>
+  </div>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Correo</th>
+        <th>Teléfono</th>
+        <th>Programa</th>
+        <th>Imagen</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tablaEstudiantes"></tbody>
+  </table>
+
+  <script>
+    fetch('/api/estudiantes')
+      .then(res => res.json())
+      .then(estudiantes => {
+        const tbody = document.getElementById('tablaEstudiantes');
+        estudiantes.forEach(est => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${est.id}</td>
+            <td>${est.nombre}</td>
+            <td>${est.correo}</td>
+            <td>${est.telefono}</td>
+            <td>${est.programa_id}</td>
+            <td>${est.imagen ? `<img src="/uploads/${est.imagen}" width="60" />` : 'Sin imagen'}</td>
+            <td>
+              <a href="estudiantes-editar.html?id=${est.id}" class="button edit">Editar</a>
+              <a href="#" class="button delete" onclick="eliminar(${est.id})">Eliminar</a>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      });
+
+    function eliminar(id) {
+      if (confirm('¿Seguro que deseas eliminar este estudiante?')) {
+        fetch(`/api/estudiantes/${id}`, { method: 'DELETE' })
+          .then(() => location.reload());
+      }
+    }
+  </script>
+</body>
+</html>

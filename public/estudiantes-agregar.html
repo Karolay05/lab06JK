@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agregar Estudiante</title>
+  <link rel="stylesheet" href="agregarE.css">
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1>Agregar Estudiante</h1>
+  <form id="formAgregar" enctype="multipart/form-data">
+    <label>Nombre: <input type="text" name="nombre" required /></label><br>
+    <label>Correo: <input type="email" name="correo" required /></label><br>
+    <label>Teléfono: <input type="text" name="telefono" required /></label><br>
+    <label>Programa:
+      <select name="programa_id" required id="programaSelect"></select>
+    </label><br>
+    <label>Imagen: <input type="file" name="imagen" accept="image/*" /></label><br>
+    <button type="submit">
+      <i class="fas fa-save"></i> Guardar
+    </button>
+  </form>
+
+  <script>
+    // Llenar programas en el select
+    fetch('/api/programas')
+      .then(res => res.json())
+      .then(data => {
+        const select = document.getElementById('programaSelect');
+        data.forEach(p => {
+          const opt = document.createElement('option');
+          opt.value = p.id;
+          opt.textContent = p.nombre;
+          select.appendChild(opt);
+        });
+      });
+
+    document.getElementById('formAgregar').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      fetch('/api/estudiantes', {
+        method: 'POST',
+        body: formData
+      })
+        .then(res => res.json())
+        .then(() => window.location.href = 'estudiantes.html');
+    });
+  </script>
+</body>
+</html>

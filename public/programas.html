@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Lista de Programas</title>
+  <link rel="stylesheet" href="programas.css">
+</head>
+<body>
+  <h1>Programas</h1>
+  <div class="actions">
+    <a href="programas-agregar.html" class="button add">Agregar Programa</a>
+    <a href="estudiantes.html" class="button view">Ver Estudiantes</a>
+  </div>
+  <table border="1">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody id="tablaProgramas"></tbody>
+  </table>
+
+  <script>
+    // Obtener y mostrar los programas
+    fetch('/api/programas')
+      .then(res => {
+        if (!res.ok) throw new Error('Error al obtener los programas.');
+        return res.json();
+      })
+      .then(programas => {
+        const tbody = document.getElementById('tablaProgramas');
+        programas.forEach(p => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${p.id}</td>
+            <td>${p.nombre}</td>
+            <td>
+              <div class="button-group">
+                <a href="programas-editar.html?id=${p.id}" class="button edit"></a>
+                <a href="#" class="button delete" onclick="eliminar(${p.id})"></a>
+              </div>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      })
+      .catch(err => {
+        alert('Error al cargar los programas.');
+        console.error(err);
+      });
+
+    // Función para eliminar un programa
+    function eliminar(id) {
+      if (confirm('¿Seguro que deseas eliminar este programa?')) {
+        fetch(`/api/programas/${id}`, { method: 'DELETE' })
+          .then(res => {
+            if (!res.ok) throw new Error('Error al eliminar el programa.');
+            return res.json();
+          })
+          .then(() => {
+            alert('Programa eliminado correctamente.');
+            location.reload();
+          })
+          .catch(err => {
+            alert('Error al eliminar el programa.');
+            console.error(err);
+          });
+      }
+    }
+  </script>
+</body>
+</html>

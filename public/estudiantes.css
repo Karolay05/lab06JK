@@ -1,0 +1,129 @@
+/* Estilos específicos para estudiantes */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #ffffff; /* Fondo blanco */
+    margin: 0;
+    padding: 0;
+    color: #333; /* Texto gris oscuro */
+}
+
+h1 {
+    text-align: center;
+    color: #003366; /* Azul noche */
+    margin-bottom: 30px;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1); /* Sombra gris */
+    border: 1px solid #cce7ff; /* Borde celeste claro */
+}
+
+th {
+    background-color: #007bff; /* Azul noche */
+    color: white;
+    padding: 12px;
+    text-align: left;
+    font-size: 16px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #e0f0ff; /* Gris claro */
+    color: #333; /* Texto gris oscuro */
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-start; /* Alinear los botones a la izquierda */
+    gap: 10px; /* Espacio entre los botones */
+    margin-top: 20px; /* Separación del contenido superior */
+}
+
+a.button {
+    padding: 6px 10px; /* Tamaño reducido */
+    border-radius: 6px; /* Bordes más redondeados */
+    font-size: 12px; /* Texto más pequeño */
+    text-decoration: none; /* Sin subrayado */
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra gris */
+}
+
+a.button.add {
+    background-color: #5bc0de; /* Celeste */
+    padding: 8px 12px; /* Tamaño ajustado */
+    font-size: 14px; /* Texto más grande */
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+a.button.add:hover {
+    background-color: #31b0d5; /* Celeste más oscuro */
+    transform: translateY(-2px); /* Efecto de elevación */
+}
+
+a.button.view {
+    background-color: #003366; /* Azul noche */
+    padding: 8px 12px; /* Tamaño ajustado */
+    font-size: 14px; /* Texto más grande */
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+a.button.view:hover {
+    background-color: #002244; /* Azul noche más oscuro */
+    transform: translateY(-2px); /* Efecto de elevación */
+}
+
+a.button.edit {
+    background-color: #5bc0de; /* Celeste */
+    color: white;
+    font-size: 12px; /* Texto más pequeño */
+    padding: 6px 10px; /* Tamaño reducido */
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+a.button.edit::before {
+    content: '✏️'; /* Ícono de editar */
+    font-size: 16px;
+    margin-right: 4px;
+}
+
+a.button.edit:hover {
+    background-color: #31b0d5; /* Celeste más oscuro */
+    transform: translateY(-2px);
+}
+
+a.button.delete {
+    background-color: #333333; /* Negro */
+    color: white;
+    font-size: 12px; /* Texto más pequeño */
+    padding: 6px 10px; /* Tamaño reducido */
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+a.button.delete::before {
+    content: '🗑️'; /* Ícono de eliminar */
+    font-size: 16px;
+    margin-right: 4px;
+}
+
+a.button.delete:hover {
+    background-color: #000000; /* Negro más oscuro */
+    transform: translateY(-2px);
+}

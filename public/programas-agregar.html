@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Agregar Programa</title>
+  <link rel="stylesheet" href="agregarP.css">
+</head>
+<body>
+  <h1>Agregar Programa</h1>
+  <form id="formPrograma">
+    <label for="nombre">Nombre del programa:</label>
+    <input type="text" id="nombre" name="nombre" required />
+    <button type="submit">Guardar</button>
+  </form>
+
+  <script>
+    document.getElementById('formPrograma').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const data = {
+        nombre: document.getElementById('nombre').value
+      };
+
+      fetch('/api/programas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      })
+        .then(res => {
+          if (!res.ok) throw new Error('Error al agregar el programa.');
+          return res.json();
+        })
+        .then(() => {
+          alert('Programa agregado correctamente.');
+          window.location.href = 'programas.html';
+        })
+        .catch(err => {
+          alert('Error al agregar el programa.');
+          console.error(err);
+        });
+    });
+  </script>
+</body>
+</html>

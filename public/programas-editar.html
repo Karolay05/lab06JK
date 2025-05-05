@@ -1,0 +1,81 @@
+<!-- /public/programas-editar.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Programa</title>
+    <link rel="stylesheet" href="editarP.css">
+</head>
+<body>
+    <header>
+        <h1>Editar Programa</h1>
+    </header>
+
+    <section>
+        <form id="formEditar">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+            <button type="submit">Guardar Cambios</button>
+        </form>
+    </section>
+
+
+
+    <script>
+        // Obtener el ID del programa desde la URL
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+
+        if (!id) {
+            alert('No se proporcionó un ID válido para editar.');
+            window.location.href = '/programas.html'; // Redirigir si no hay ID
+        }
+
+        // Cargar los datos del programa a editar
+        fetch(`/api/programas/${id}`)
+            .then(res => {
+                if (!res.ok) throw new Error('No se pudo cargar el programa.');
+                return res.json();
+            })
+            .then(programa => {
+                if (!programa || !programa.nombre) {
+                    throw new Error('El programa no existe.');
+                }
+                document.getElementById('nombre').value = programa.nombre;
+            })
+            .catch(err => {
+                alert('Error al cargar los datos del programa.');
+                console.error(err);
+                window.location.href = '/programas.html'; // Redirigir en caso de error
+            });
+
+        // Configurar el formulario para enviar la solicitud PUT
+        const form = document.getElementById('formEditar');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const data = {
+                nombre: document.getElementById('nombre').value
+            };
+
+            fetch(`/api/programas/${id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Error al actualizar el programa.');
+                return res.json();
+            })
+            .then(response => {
+                alert(response.message || 'Programa actualizado correctamente.');
+                window.location.href = '/programas.html';
+            })
+            .catch(err => {
+                alert('Error al actualizar el programa.');
+                console.error(err);
+            });
+        });
+    </script>
+</body>
+</html>
